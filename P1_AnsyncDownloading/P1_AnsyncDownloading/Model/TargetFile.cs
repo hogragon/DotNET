@@ -35,7 +35,7 @@ namespace P1_AnsyncDownloading.Model
             }
         }
 
-        public TargetFile(String url,String localDirectory)
+        public TargetFile(String url,String localDirectory="")
         {
             this.url = url;
             this.validURL = CheckValidURL(url);
