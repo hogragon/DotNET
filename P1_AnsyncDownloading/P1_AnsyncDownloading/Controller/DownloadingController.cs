@@ -33,11 +33,12 @@ namespace P1_AnsyncDownloading.Controller
             //create new task, the task has not started yet
             Task<string> getStringTask = request.GetStringAsync("http://msdn.microsoft.com");
 
-            //Do some independent job here
+            //Do some independent job here            
             UpdateProgress();
 
             //use await to perform a task
             string urlContent = await getStringTask;
+            Console.WriteLine("finish getStringTask");
             return urlContent.Length;
         }
 
