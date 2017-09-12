@@ -107,16 +107,15 @@ namespace P1_AnsyncDownloading
 
         //If we use await inside the method, the method signature must has async. Otherwise
         private async void OnDownloadButtonClick(object sender, EventArgs e)
-        {
-            TargetFile file = new TargetFile(this.urlTextBox.Text);
-            if (!file.ValidURL)
+        {            
+            if (!DownloadingController.Instance.IsValidURL(this.urlTextBox.Text))
             {
                 MessageBox.Show("Invalid URL! Please correct your URL!");
             }
             else
             {
                 //Start downloading content
-                int contentLength = await DownloadingController.Instance.DownloadAsync(file);
+                int contentLength = await DownloadingController.Instance.DownloadAsync(this.urlTextBox.Text);
                 MessageBox.Show(String.Format("Content length {0}", contentLength));
             }
         }

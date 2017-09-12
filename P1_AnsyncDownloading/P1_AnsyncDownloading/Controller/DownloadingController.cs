@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace P1_AnsyncDownloading.Controller
@@ -26,7 +27,21 @@ namespace P1_AnsyncDownloading.Controller
             
         }
 
-        public async Task<int> DownloadAsync(TargetFile file)
+        public bool IsValidURL(string url)
+        {
+            string pattern = @"^((http[s]?|ftp):\/)?\/?([^:\/\s]+)((\/\w+)*\/)([\w\-\.]+[^#?\s]+)(.*)?(#[\w\-]+)?$";
+            Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
+            Match match = regex.Match(url);
+            return match.Success;
+        }
+
+        public async Task<int> DownloadAsync(string fileName)
+        {
+            TargetFile file = new TargetFile(fileName);
+            return await DownloadAsync(file);
+        }
+
+        private async Task<int> DownloadAsync(TargetFile file)
         {
             HttpClient request = new HttpClient();
 

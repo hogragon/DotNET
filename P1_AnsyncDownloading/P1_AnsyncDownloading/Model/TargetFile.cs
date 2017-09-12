@@ -22,8 +22,7 @@ namespace P1_AnsyncDownloading.Model
 
             set
             {
-                url = value;
-                this.validURL = CheckValidURL(url);
+                url = value;                
             }
         }
 
@@ -37,16 +36,7 @@ namespace P1_AnsyncDownloading.Model
 
         public TargetFile(String url,String localDirectory="")
         {
-            this.url = url;
-            this.validURL = CheckValidURL(url);
-        }
-
-        private static bool CheckValidURL(String url)
-        {
-            string pattern = @"^((http[s]?|ftp):\/)?\/?([^:\/\s]+)((\/\w+)*\/)([\w\-\.]+[^#?\s]+)(.*)?(#[\w\-]+)?$";
-            Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
-            Match match = regex.Match(url);
-            return match.Success;
+            this.url = url;            
         }
     }
 }
