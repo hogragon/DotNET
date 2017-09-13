@@ -9,6 +9,58 @@
       Title="Room">
 
     <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="Resources/18768577_1427380760618581_329812354878058584_o.jpg"/>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="230"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Column="1" x:Name="label" Content="Room For" Style="{StaticResource headerTextStyle}"/>
+        <Grid Margin="10" Grid.Column="1" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Orientation="Horizontal">
+                <Label Style="{StaticResource labelStyle}">Name</Label>
+                <Label Style="{StaticResource labelStyle}" Content="{Binding XPath=@Name}"></Label>
+            </StackPanel>
+            
+            <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Orientation="Horizontal">
+                <Label Style="{StaticResource labelStyle}">Department</Label>
+                <Label Style="{StaticResource labelStyle}" Content="{Binding XPath=@Department}"></Label>
+            </StackPanel>
+            <Grid Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Left">
+                <Grid.Resources>
+                    <DataTemplate x:Key="typeItemTemplate">
+                        <Label Content="{Binding XPath=@ExpenseType}"></Label>
+                    </DataTemplate>
+                    <DataTemplate x:Key="amountItemTemplate">
+                        <Label Content="{Binding XPath=@ExpenseAmount}"></Label>
+                    </DataTemplate>
+                </Grid.Resources>
+                <DataGrid ItemsSource="{Binding XPath=Expense}" AutoGenerateColumns="False" RowHeaderWidth="0" ColumnHeaderStyle="{StaticResource columnHeaderStyle}">
+                    
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ExpenseType" Binding="{Binding XPath=@ExpenseType}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Amount" Binding="{Binding XPath=@ExpenseAmount}"></DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+
+        </Grid>
+        
         
     </Grid>
 </Page>

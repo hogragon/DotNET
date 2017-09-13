@@ -24,5 +24,10 @@ namespace P2_WPF
         {
             InitializeComponent();
         }
+
+        public Room(object data) : this()
+        {
+            this.DataContext = data;
+        }
     }
 }

@@ -27,7 +27,7 @@ namespace P2_WPF
 
         private void OnButtonViewClick(object sender, RoutedEventArgs e)
         {
-            Room room = new Room();
+            Room room = new Room(this.peopleListBox.SelectedItem);
             this.NavigationService.Navigate(room);
         }
     }
