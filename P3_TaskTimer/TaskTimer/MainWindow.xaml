@@ -15,7 +15,7 @@
             <ColumnDefinition Width="120*"/>
             <ColumnDefinition Width="147*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel x:Name="TaskList" Margin="0,40,0,49" Grid.ColumnSpan="6" Background="#19040404"/>
+        <StackPanel x:Name="TaskList" Margin="0,40,0,49" Grid.ColumnSpan="6"/>
         <Label x:Name="label" Content="Task" Margin="95,0,80,0" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Tahoma" FontSize="14" Grid.Column="1" Height="27" Width="55"/>
         <Label x:Name="label_Copy" Content="Time Spent" Margin="18,3,8,0" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Tahoma" FontSize="14" Grid.Column="2" Height="27" HorizontalAlignment="Center" Width="89"/>
         <Label x:Name="label_Copy1" Content="Goal" HorizontalAlignment="Center" Margin="38,3,35,0" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Tahoma" FontSize="14" Grid.Column="3" Height="27" Width="42"/>

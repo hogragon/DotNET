@@ -73,6 +73,7 @@ namespace TaskTimer
         {
             currentState = State.STOP;
             timeSpent = timeSpent.Add(realTime);
+            realTime = TimeSpan.Parse("00:00:00");
         }
         public void Start()
         {
@@ -92,6 +93,11 @@ namespace TaskTimer
                     {
                         completedPercent = ((realTime.Seconds + timeSpent.Seconds) / destTimeValue);
                         completedPercent = Math.Min(1, CompletedPercent);
+
+                        if (completedPercent >= 1)
+                        {
+                            currentState = State.COMPLETED;
+                        }
                     }
                 }
                 else

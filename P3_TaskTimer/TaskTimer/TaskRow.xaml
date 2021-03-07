@@ -14,20 +14,86 @@
             <TranslateTransform/>
         </TransformGroup>
     </UserControl.RenderTransform>
-    <Grid Margin="0" ShowGridLines="True">
+    <Grid Margin="0" ShowGridLines="False">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="68*"/>
-            <ColumnDefinition Width="231*"/>
+            <ColumnDefinition Width="30*"/>
+            <ColumnDefinition Width="269*"/>
             <ColumnDefinition Width="116*"/>
             <ColumnDefinition Width="116*"/>
             <ColumnDefinition Width="123*"/>
             <ColumnDefinition Width="38*"/>
-            <ColumnDefinition Width="37*"/>
-            <ColumnDefinition Width="36*"/>
-            <ColumnDefinition Width="35*"/>
+            <ColumnDefinition Width="48*"/>
+            <ColumnDefinition Width="50*"/>
+            <ColumnDefinition Width="10*"/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="button" Content="Button" VerticalAlignment="Center" Margin="2,0,3,0" Height="20"/>
-        <ProgressBar x:Name="progressBar" Grid.Column="4" Margin="5,5,0,5" Height="10" VerticalAlignment="Center"/>
+        <Button x:Name="button" Content="Button" VerticalAlignment="Center" Margin="2,0,3,0" Height="20" Visibility="Hidden"/>
+        <ProgressBar x:Name="progressBar" Grid.Column="4" Margin="5,5,0,5" Height="10" VerticalAlignment="Center" Style="{DynamicResource CornerRadius}">
+            <ProgressBar.Resources>
+                <SolidColorBrush x:Key="ProgressBar.Progress" Color="#FF06B025"/>
+                <SolidColorBrush x:Key="ProgressBar.Background" Color="#FFE6E6E6"/>
+                <SolidColorBrush x:Key="ProgressBar.Border" Color="#FFBCBCBC"/>
+                <Style x:Key="CornerRadius" TargetType="{x:Type ProgressBar}">
+                    <Setter Property="Foreground" Value="{StaticResource ProgressBar.Progress}"/>
+                    <Setter Property="Background" Value="{StaticResource ProgressBar.Background}"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource ProgressBar.Border}"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ProgressBar}">
+                                <Grid x:Name="TemplateRoot">
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup x:Name="CommonStates">
+                                            <VisualState x:Name="Determinate"/>
+                                            <VisualState x:Name="Indeterminate">
+                                                <Storyboard RepeatBehavior="Forever">
+                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="Animation">
+                                                        <EasingDoubleKeyFrame KeyTime="0" Value="0.25"/>
+                                                        <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0.25"/>
+                                                        <EasingDoubleKeyFrame KeyTime="0:0:2" Value="0.25"/>
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                    <PointAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)" Storyboard.TargetName="Animation">
+                                                        <EasingPointKeyFrame KeyTime="0" Value="-0.5,0.5"/>
+                                                        <EasingPointKeyFrame KeyTime="0:0:1" Value="0.5,0.5"/>
+                                                        <EasingPointKeyFrame KeyTime="0:0:2" Value="1.5,0.5"/>
+                                                    </PointAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="8"/>
+                                    <Rectangle x:Name="PART_Track" RadiusX="8" RadiusY="8"/>
+                                    <Grid x:Name="PART_Indicator" ClipToBounds="true" HorizontalAlignment="Left">
+                                        <Rectangle x:Name="Indicator" Fill="{TemplateBinding Foreground}" RadiusX="8" RadiusY="8"/>
+                                        <Rectangle x:Name="Animation" Fill="{TemplateBinding Foreground}" RenderTransformOrigin="0.5,0.5" RadiusX="8" RadiusY="8">
+                                            <Rectangle.RenderTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform/>
+                                                    <SkewTransform/>
+                                                    <RotateTransform/>
+                                                    <TranslateTransform/>
+                                                </TransformGroup>
+                                            </Rectangle.RenderTransform>
+                                        </Rectangle>
+                                    </Grid>
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="Orientation" Value="Vertical">
+                                        <Setter Property="LayoutTransform" TargetName="TemplateRoot">
+                                            <Setter.Value>
+                                                <RotateTransform Angle="-90"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                    <Trigger Property="IsIndeterminate" Value="true">
+                                        <Setter Property="Visibility" TargetName="Indicator" Value="Collapsed"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ProgressBar.Resources>
+        </ProgressBar>
         <TextBox x:Name="taskDesc" Grid.Column="1" Height="20" Margin="0,0,5,0" TextWrapping="Wrap" VerticalAlignment="Center" TextChanged="textBox_TextChanged" MouseDoubleClick="taskDesc_MouseDoubleClick" LostFocus="taskDesc_LostFocus">
             <TextBox.LayoutTransform>
                 <TransformGroup>
@@ -41,8 +107,7 @@
         <TextBox x:Name="timeSpent" Grid.Column="2" Height="20" TextWrapping="Wrap" VerticalAlignment="Center"/>
         <TextBox x:Name="timeGoal" Grid.Column="3" Height="20" Margin="5,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
         <Button x:Name="buttonStart" Content="&gt;" VerticalAlignment="Center" Margin="5,0,3,0" Height="20" Grid.Column="5" Click="buttonStart_Click"/>
-        <Button x:Name="button_Copy1" Content="Button" VerticalAlignment="Center" Margin="3,0,4,0" Height="20" Grid.Column="6"/>
-        <Button x:Name="buttonReset" Content="Reset" VerticalAlignment="Center" Margin="3,0" Height="20" Grid.Column="7"/>
-        <Button x:Name="buttonRemove" Content="X" VerticalAlignment="Center" Margin="3,0,2,0" Height="20" Grid.Column="8" Click="buttonRemove_Click"/>
+        <Button x:Name="buttonReset" Content="Reset" VerticalAlignment="Center" Margin="2,0" Height="20" Grid.Column="6" Click="buttonReset_Click"/>
+        <Button x:Name="buttonRemove" Content="X" VerticalAlignment="Center" Height="20" Grid.Column="7" Click="buttonRemove_Click"/>
     </Grid>
 </UserControl>

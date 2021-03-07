@@ -116,5 +116,11 @@ namespace TaskTimer
             data.CurrentState = TaskModel.State.REMOVED;
             OnRemoveButtonClickedEvent(this);
         }
+
+        private void buttonReset_Click(object sender, RoutedEventArgs e)
+        {
+            data.Reset();
+            timeSpent.Text = data.TimeSpent;
+        }
     }
 }
