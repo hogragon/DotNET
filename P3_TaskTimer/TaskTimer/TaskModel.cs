@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace TaskTimer
 {
+    [System.Serializable]
     public class TaskModel
     {
         TimeSpan timeSpent;
@@ -58,10 +59,14 @@ namespace TaskTimer
                 TimeSpan t = timeSpent.Add(realTime);
                 return string.Format("{0:00}:{1:00}:{2:00}", t.Hours, t.Minutes, t.Seconds);
             }
+            set
+            {
+                timeSpent = TimeSpan.Parse(value);
+            }
         }
-        public DateTime TimeStart { get => timeStart;}
+        public DateTime TimeStart { get => timeStart; set=>timeStart=value; }
         
-        public double CompletedPercent { get => completedPercent;}
+        public double CompletedPercent { get => completedPercent; set => completedPercent = value; }
         public State CurrentState { get => currentState; set => currentState = value; }
 
         public void Stop()
@@ -95,5 +100,11 @@ namespace TaskTimer
                 }
             }
         }
+    }
+
+    [System.Serializable]
+    public class TaskArray
+    {
+        public TaskModel[] Collection;
     }
 }

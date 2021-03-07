@@ -28,7 +28,7 @@
         </Grid.ColumnDefinitions>
         <Button x:Name="button" Content="Button" VerticalAlignment="Center" Margin="2,0,3,0" Height="20"/>
         <ProgressBar x:Name="progressBar" Grid.Column="4" Margin="5,5,0,5" Height="10" VerticalAlignment="Center"/>
-        <TextBox x:Name="taskDesc" Grid.Column="1" Height="20" Margin="0,0,5,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Center" TextChanged="textBox_TextChanged" MouseDoubleClick="taskDesc_MouseDoubleClick" LostFocus="taskDesc_LostFocus">
+        <TextBox x:Name="taskDesc" Grid.Column="1" Height="20" Margin="0,0,5,0" TextWrapping="Wrap" VerticalAlignment="Center" TextChanged="textBox_TextChanged" MouseDoubleClick="taskDesc_MouseDoubleClick" LostFocus="taskDesc_LostFocus">
             <TextBox.LayoutTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -38,8 +38,8 @@
                 </TransformGroup>
             </TextBox.LayoutTransform>
         </TextBox>
-        <TextBox x:Name="timeSpent" Grid.Column="2" Height="20" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Center"/>
-        <TextBox x:Name="timeGoal" Grid.Column="3" Height="20" Margin="5,0,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Center"/>
+        <TextBox x:Name="timeSpent" Grid.Column="2" Height="20" TextWrapping="Wrap" VerticalAlignment="Center"/>
+        <TextBox x:Name="timeGoal" Grid.Column="3" Height="20" Margin="5,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
         <Button x:Name="buttonStart" Content="&gt;" VerticalAlignment="Center" Margin="5,0,3,0" Height="20" Grid.Column="5" Click="buttonStart_Click"/>
         <Button x:Name="button_Copy1" Content="Button" VerticalAlignment="Center" Margin="3,0,4,0" Height="20" Grid.Column="6"/>
         <Button x:Name="buttonReset" Content="Reset" VerticalAlignment="Center" Margin="3,0" Height="20" Grid.Column="7"/>

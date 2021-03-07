@@ -98,8 +98,44 @@ namespace TaskTimer
 
         private void Window_Closed(object sender, EventArgs e)
         {   
-            isUIUpdateRunning = false;            
-            
+            isUIUpdateRunning = false;
+            Save();
+        }
+
+        public void Load()
+        {
+            TaskArray tasks = DataSaver.LoadFromFile<TaskArray>("tasks.json");
+            if (tasks!=null && tasks.Collection!=null)
+            {
+                for(int i = 0; i < tasks.Collection.Length; ++i)
+                {
+                    TaskModel task = tasks.Collection[i];
+                    TaskRow row = new TaskRow(task);
+                    this.TaskList.Children.Add(row);
+                    row.OnStartButtonClickedEvent = OnTaskRowStartEvenHandler;
+                    row.OnRemoveButtonClickedEvent = OnRemoveButtonClickedEvenHandler;
+
+                    this.taskRowList.Add(row);
+                }
+            }
+        }
+
+        public void Save()
+        {
+            List<TaskModel> list = new List<TaskModel>();
+            for(int i = 0; i < taskRowList.Count; ++i)
+            {
+                taskRowList[i].Data.Stop();
+                list.Add(taskRowList[i].Data);
+            }
+            TaskArray array = new TaskArray();
+            array.Collection = list.ToArray<TaskModel>();
+            DataSaver.WriteToFile<TaskArray>(array, "tasks.json");
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            Load();
         }
     }
 }

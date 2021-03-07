@@ -41,6 +41,8 @@ namespace TaskTimer
             timeSpent.Text = data.TimeSpent;
             timeGoal.Text = data.TimeGoal;
 
+            progressBar.Value = data.CompletedPercent * 100.0f;
+
             taskDesc.IsReadOnly = true;
             timeSpent.IsReadOnly = true;
             timeGoal.IsReadOnly = true;
@@ -56,7 +58,7 @@ namespace TaskTimer
                 tb.Height = tb.ExtentHeight;
                 prevLine = lines;
             }
-            
+            data.Description = tb.Text;
         }
 
         private void taskDesc_MouseDoubleClick(object sender, MouseButtonEventArgs e)

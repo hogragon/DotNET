@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TaskTimer"
         mc:Ignorable="d"
-        Title="Task Timer" Height="450" Width="800" Closed="Window_Closed">
+        Title="Task Timer" Height="450" Width="800" Closed="Window_Closed" Loaded="Window_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="65*"/>
@@ -20,8 +20,8 @@
         <Label x:Name="label_Copy" Content="Time Spent" Margin="18,3,8,0" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Tahoma" FontSize="14" Grid.Column="2" Height="27" HorizontalAlignment="Center" Width="89"/>
         <Label x:Name="label_Copy1" Content="Goal" HorizontalAlignment="Center" Margin="38,3,35,0" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Tahoma" FontSize="14" Grid.Column="3" Height="27" Width="42"/>
         <Label x:Name="label_Copy2" Content="Progress" HorizontalAlignment="Center" Margin="30,3,18,0" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Tahoma" FontSize="14" Grid.Column="4" Height="27" Width="72"/>
-        <TextBox x:Name="taskDesc" Grid.Column="1" Margin="10,0,10,10" TextWrapping="Wrap" Text="TextBox" Height="23" VerticalAlignment="Bottom"/>
-        <TextBox x:Name="taskGoal" Grid.Column="2" Margin="10,0,10,10" TextWrapping="Wrap" Text="TextBox" Height="23" VerticalAlignment="Bottom" LostFocus="taskGoal_LostFocus"/>
+        <TextBox x:Name="taskDesc" Grid.Column="1" Margin="10,0,10,10" TextWrapping="Wrap" Height="23" VerticalAlignment="Bottom"/>
+        <TextBox x:Name="taskGoal" Grid.Column="2" Margin="10,0,10,10" TextWrapping="Wrap" Height="23" VerticalAlignment="Bottom" LostFocus="taskGoal_LostFocus"/>
         <Button x:Name="button" Content="Add Task" Grid.Column="3" HorizontalAlignment="Left" Margin="10,0,0,10" Width="92" Height="23" VerticalAlignment="Bottom" Click="button_Click"/>
         <Label x:Name="label_Copy3" Content="Options" HorizontalAlignment="Center" Margin="43,3,32,0" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Tahoma" FontSize="14" Grid.Column="5" Height="27" Width="72"/>
 
