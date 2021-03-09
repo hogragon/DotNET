@@ -29,6 +29,7 @@ namespace TaskTimer
         private List<TaskRow> taskRowList = new List<TaskRow>();
 
         Thread uiThread;
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -38,6 +39,17 @@ namespace TaskTimer
             uiThread = new Thread(HandleUIUpdate);
             uiThread.IsBackground = true;
             uiThread.Start();
+
+            this.StateChanged += new EventHandler(HandleWindowStateChangeEvent);
+        }
+
+        private void HandleWindowStateChangeEvent(object sender, EventArgs e)
+        {
+            Thread updateContentSize = new Thread(new ThreadStart(() => {
+                Thread.Sleep(5);
+                UpdateContentSize();
+            }));
+            updateContentSize.Start();
         }
 
         private void HandleUIUpdate()
@@ -133,9 +145,28 @@ namespace TaskTimer
             DataSaver.WriteToFile<TaskArray>(array, "tasks.json");
         }
 
+        private void UpdateContentSize()
+        {   
+            for (int i = 0; i < taskRowList.Count; ++i)
+            {
+                TaskRow r = taskRowList[i];
+                r.Dispatcher.Invoke(r.WrapText);
+            }
+        }
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Load();
+            Load();            
+        }
+
+        private void Window_ContentRendered(object sender, EventArgs e)
+        {   
+            UpdateContentSize();
+        }
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            UpdateContentSize();
         }
     }
 }

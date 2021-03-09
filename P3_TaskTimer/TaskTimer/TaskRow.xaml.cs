@@ -46,30 +46,41 @@ namespace TaskTimer
             taskDesc.IsReadOnly = true;
             timeSpent.IsReadOnly = true;
             timeGoal.IsReadOnly = true;
+
+            taskDesc.BorderThickness = new Thickness(0);
         }
 
         private void textBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox tb = taskDesc;
-            int lines = tb.GetLastVisibleLineIndex() - tb.GetFirstVisibleLineIndex();            
+            int lines = tb.GetLastVisibleLineIndex() - tb.GetFirstVisibleLineIndex();
             if (lines != prevLine)
-            {
-                this.Height = tb.ExtentHeight;
-                tb.Height = tb.ExtentHeight;
+            {   
+                WrapText();
                 prevLine = lines;
             }
             data.Description = tb.Text;
+        }
+        
+        public void WrapText()
+        {
+            TextBox tb = taskDesc;
+            this.Height = Math.Max(tb.ExtentHeight,this.Height);
+            tb.Height = tb.ExtentHeight;
         }
 
         private void taskDesc_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             taskDesc.IsReadOnly = false;
+            taskDesc.BorderThickness = new Thickness(1);
             taskDesc.Focus();
         }
 
         private void taskDesc_LostFocus(object sender, RoutedEventArgs e)
         {
+            WrapText();
             taskDesc.IsReadOnly = true;
+            taskDesc.BorderThickness = new Thickness();
         }
 
         private void buttonStart_Click(object sender, RoutedEventArgs e)
@@ -107,6 +118,7 @@ namespace TaskTimer
                 {
                     isRunning = false;
                     buttonStart.Content = ">";
+                    Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(100,215,240,215));
                 }
             }
         }
@@ -121,6 +133,7 @@ namespace TaskTimer
         {
             data.Reset();
             timeSpent.Text = data.TimeSpent;
+            progressBar.Value = 0;
         }
     }
 }
