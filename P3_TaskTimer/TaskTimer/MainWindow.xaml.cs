@@ -85,6 +85,8 @@ namespace TaskTimer
             row.OnRemoveButtonClickedEvent = OnRemoveButtonClickedEvenHandler;
             
             this.taskRowList.Add(row);
+
+            HandleWindowStateChangeEvent(null, null);
         }
 
         private void OnRemoveButtonClickedEvenHandler(TaskRow obj)
