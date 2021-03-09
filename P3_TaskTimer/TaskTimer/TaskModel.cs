@@ -91,7 +91,7 @@ namespace TaskTimer
 
                     if (destTimeValue != 0)
                     {
-                        completedPercent = ((realTime.Seconds + timeSpent.Seconds) / destTimeValue);
+                        completedPercent = ((realTime.TotalSeconds + timeSpent.TotalSeconds) / destTimeValue);
                         completedPercent = Math.Min(1, CompletedPercent);
 
                         if (completedPercent >= 1)
