@@ -80,7 +80,7 @@ namespace TaskTimer
             task.Description = taskDesc.Text;
 
             TaskRow row = new TaskRow(task);
-            this.TaskList.Children.Add(row);
+            this.TaskList.Children.Add(row);            
             row.OnStartButtonClickedEvent = OnTaskRowStartEvenHandler;
             row.OnRemoveButtonClickedEvent = OnRemoveButtonClickedEvenHandler;
             
@@ -107,6 +107,10 @@ namespace TaskTimer
             if (!regrex.IsMatch(taskGoal.Text))
             {
                 taskGoal.Text = "00:00:00";
+            }
+            else
+            {
+                taskGoal.Text = Utils.FormatTime(taskGoal.Text);
             }
         }
 

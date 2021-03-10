@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Threading;
+using System.Text.RegularExpressions;
 
 namespace TaskTimer
 {
@@ -22,12 +23,15 @@ namespace TaskTimer
     /// </summary>
     public partial class TaskRow : UserControl
     {
+        static private Regex regrex = new Regex(@"^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$");
         public Action<TaskRow> OnStartButtonClickedEvent;
         public Action<TaskRow> OnRemoveButtonClickedEvent;
         int prevLine = 0;
         TaskModel data;
         bool isRunning;
-
+        SolidColorBrush colorBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(100, 215, 240, 215));
+        Thickness oneThick = new Thickness(1);
+        Thickness zeroThick = new Thickness(0);
         public TaskModel Data { get => data;}
 
         public TaskRow() { }
@@ -47,7 +51,7 @@ namespace TaskTimer
             timeSpent.IsReadOnly = true;
             timeGoal.IsReadOnly = true;
 
-            taskDesc.BorderThickness = new Thickness(0);
+            taskDesc.BorderThickness = zeroThick;
         }
 
         private void textBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -72,7 +76,7 @@ namespace TaskTimer
         private void taskDesc_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             taskDesc.IsReadOnly = false;
-            taskDesc.BorderThickness = new Thickness(1);
+            taskDesc.BorderThickness = oneThick;
             taskDesc.Focus();
         }
 
@@ -80,7 +84,7 @@ namespace TaskTimer
         {
             WrapText();
             taskDesc.IsReadOnly = true;
-            taskDesc.BorderThickness = new Thickness();
+            taskDesc.BorderThickness = zeroThick;
         }
 
         private void buttonStart_Click(object sender, RoutedEventArgs e)
@@ -118,7 +122,7 @@ namespace TaskTimer
                 {
                     isRunning = false;
                     buttonStart.Content = ">";
-                    Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(100,215,240,215));
+                    Background = colorBrush;
                 }
             }
         }
@@ -135,5 +139,75 @@ namespace TaskTimer
             timeSpent.Text = data.TimeSpent;
             progressBar.Value = 0;
         }
+        string tempString;
+        private void timeSpent_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            tempString = timeSpent.Text;
+            ChangeTextBoxState(timeSpent, true);
+        }
+
+        private void timeGoal_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            tempString = timeGoal.Text;
+            ChangeTextBoxState(timeGoal, true);
+        }
+
+        private void ChangeTextBoxState(TextBox tb,bool editable)
+        {
+            if (editable)
+            {
+                tb.IsReadOnly = false;
+                tb.BorderThickness = oneThick;
+            }
+            else
+            {
+                tb.IsReadOnly = true;
+                tb.BorderThickness = zeroThick;
+            }
+        }
+
+        private void timeSpent_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            //data.TimeSpent = timeSpent.Text;
+        }
+
+        private void timeGoal_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            //data.TimeGoal = timeGoal.Text;
+        }
+
+        private void timeSpent_LostFocus(object sender, RoutedEventArgs e)
+        {
+            ChangeTextBoxState(timeSpent, false);
+            if (!regrex.IsMatch(timeSpent.Text))
+            {
+                timeSpent.Text = Utils.FormatTime(tempString);
+            }
+            else
+            {
+                timeSpent.Text = Utils.FormatTime(timeSpent.Text);
+                data.TimeSpent = timeSpent.Text;
+            }
+        }
+
+        private void timeGoal_LostFocus(object sender, RoutedEventArgs e)
+        {
+            ChangeTextBoxState(timeGoal, false);
+            if (!regrex.IsMatch(timeGoal.Text))
+            {
+                timeGoal.Text = Utils.FormatTime(tempString);
+            }
+            else
+            {
+                timeGoal.Text = Utils.FormatTime(timeGoal.Text);
+                data.TimeGoal = timeGoal.Text;
+            }
+        }
+
+        //private string FormatTime(string s)
+        //{
+        //    string[] p = s.Split(':');
+        //    return string.Format("{0:00}:{1:00}:{2:00}", int.Parse(p[0]), int.Parse(p[1]), int.Parse(p[2]));
+        //}
     }
 }
