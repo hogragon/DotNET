@@ -27,7 +27,8 @@ namespace TaskTimer
             RUNNING,
             STOP,
             COMPLETED,
-            REMOVED
+            REMOVED,
+            DONE
         }
 
         public TaskModel()
@@ -39,7 +40,12 @@ namespace TaskTimer
         public void Reset()
         {
             timeSpent = TimeSpan.Parse("00:00:00");
-            timeStart = DateTime.Now;
+            realTime = TimeSpan.Parse("00:00:00");
+            timeStart = DateTime.Now;    
+            if(currentState == State.COMPLETED || currentState == State.DONE)
+            {
+                currentState = State.NONE;
+            }
         }
 
         public string TimeGoal 

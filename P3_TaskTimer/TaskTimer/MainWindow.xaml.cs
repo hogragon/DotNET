@@ -27,7 +27,7 @@ namespace TaskTimer
         
         private bool isUIUpdateRunning;        
         private List<TaskRow> taskRowList = new List<TaskRow>();
-
+        System.Media.SoundPlayer soundPlayer;
         Thread uiThread;
         
         public MainWindow()
@@ -41,6 +41,8 @@ namespace TaskTimer
             uiThread.Start();
 
             this.StateChanged += new EventHandler(HandleWindowStateChangeEvent);
+            soundPlayer = new System.Media.SoundPlayer("alarm.wav");
+            soundPlayer.LoadAsync();
         }
 
         private void HandleWindowStateChangeEvent(object sender, EventArgs e)
@@ -81,7 +83,7 @@ namespace TaskTimer
 
             TaskRow row = new TaskRow(task);
             this.TaskList.Children.Add(row);            
-            row.OnStartButtonClickedEvent = OnTaskRowStartEvenHandler;
+            row.OnTaskCompletedEvent = OnTaskCompleteEvenHandler;
             row.OnRemoveButtonClickedEvent = OnRemoveButtonClickedEvenHandler;
             
             this.taskRowList.Add(row);
@@ -96,10 +98,10 @@ namespace TaskTimer
 
             obj = null;
         }
-
-        private void OnTaskRowStartEvenHandler(TaskRow obj)
+        
+        private void OnTaskCompleteEvenHandler(TaskRow obj)
         {
-            
+            soundPlayer.Play();
         }
 
         private void taskGoal_LostFocus(object sender, RoutedEventArgs e)
@@ -130,7 +132,7 @@ namespace TaskTimer
                     TaskModel task = tasks.Collection[i];
                     TaskRow row = new TaskRow(task);
                     this.TaskList.Children.Add(row);
-                    row.OnStartButtonClickedEvent = OnTaskRowStartEvenHandler;
+                    row.OnTaskCompletedEvent = OnTaskCompleteEvenHandler;
                     row.OnRemoveButtonClickedEvent = OnRemoveButtonClickedEvenHandler;
 
                     this.taskRowList.Add(row);

@@ -24,15 +24,16 @@ namespace TaskTimer
     public partial class TaskRow : UserControl
     {
         static private Regex regrex = new Regex(@"^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$");
-        public Action<TaskRow> OnStartButtonClickedEvent;
+        public Action<TaskRow> OnTaskCompletedEvent;
         public Action<TaskRow> OnRemoveButtonClickedEvent;
         int prevLine = 0;
         TaskModel data;
         bool isRunning;
         SolidColorBrush colorBrush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(100, 215, 240, 215));
+        SolidColorBrush colorNormal;
         Thickness oneThick = new Thickness(1);
         Thickness zeroThick = new Thickness(0);
-        public TaskModel Data { get => data;}
+        public TaskModel Data { get => data;}        
 
         public TaskRow() { }
         public TaskRow(TaskModel data)
@@ -52,6 +53,7 @@ namespace TaskTimer
             timeGoal.IsReadOnly = true;
 
             taskDesc.BorderThickness = zeroThick;
+            colorNormal = this.Background as SolidColorBrush;
         }
 
         private void textBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -104,8 +106,6 @@ namespace TaskTimer
                 Button btn = sender as Button;
                 btn.Content = "||";
             }
-            
-            OnStartButtonClickedEvent?.Invoke(this);
         }
         
         public void Update()
@@ -123,6 +123,8 @@ namespace TaskTimer
                     isRunning = false;
                     buttonStart.Content = ">";
                     Background = colorBrush;
+                    data.CurrentState = TaskModel.State.DONE;
+                    OnTaskCompletedEvent?.Invoke(this);
                 }
             }
         }
@@ -135,9 +137,13 @@ namespace TaskTimer
 
         private void buttonReset_Click(object sender, RoutedEventArgs e)
         {
-            data.Reset();
-            timeSpent.Text = data.TimeSpent;
-            progressBar.Value = 0;
+            lock (data)
+            {
+                data.Reset();
+                timeSpent.Text = data.TimeSpent;
+                progressBar.Value = 0;
+                Background = colorNormal;
+            }
         }
         string tempString;
         private void timeSpent_MouseDoubleClick(object sender, MouseButtonEventArgs e)
